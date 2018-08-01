@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <!--#########################################################################################################-->
+        <!-- SEARCH -->
+        <!--#########################################################################################################-->
+        <record id="view_dalsil_ritase_search" model="ir.ui.view">
+            <field name="name">dalsil.ritase.search</field>
+            <field name="model">dalsil.ritase</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="state"/>
+                    <field name="truck_id"/>
+                    <field name="type_truck"/>
+                    <field name="driver_id"/>
+                    <field name="customer_id"/>
+                    <field name="source_loc_id"/>
+                    <field name="dest_loc_id"/>
+                    <field name="dest_type"/>
+                    <group string="Group By">
+                        <filter name="group_truck_id" string="Truck" context="{'group_by': 'truck_id'}"/>
+                        <filter name="group_driver_id" string="Driver" context="{'group_by': 'driver_id'}"/>
+                        <filter name="group_customer_id" string="Customer" context="{'group_by': 'customer_id'}"/>
+                        <filter name="group_dest_type" string="Destination Type" context="{'group_by': 'dest_type'}"/>
+                        <filter name="group_state" string="State" context="{'group_by': 'state'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!--#########################################################################################################-->
+        <!--Group Tree View-->
+        <!--#########################################################################################################-->
+        <record model="ir.ui.view" id="view_dalsil_ritase_tree">
+            <field name="name">dalsil.ritase.tree</field>
+            <field name="model">dalsil.ritase</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="truck_id"/>
+                    <field name="driver_id"/>
+                    <field name="customer_id"/>
+                    <field name="type_truck"/>
+                    <field name="dest_type"/>
+                    <field name="source_loc_id"/>
+                    <field name="dest_loc_id"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <!--#########################################################################################################-->
+        <!-- FORM -->
+        <!--#########################################################################################################-->
+        <record id="view_dalsil_ritase_form" model="ir.ui.view">
+            <field name="name">dalsil.ritase.form</field>
+            <field name="model">dalsil.ritase</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button type="object" name="to_open" string="Open"
+                                class="oe_highlight"
+                                states="draft"/>
+                        <button type="object" name="to_calculate" string="Kalkulasi Ulang"
+                                class="oe_highlight"
+                                states="open"/>
+                        <button type="object" name="to_done" string="Done"
+                                class="oe_highlight"
+                                states="open"/>
+                        <button type="object" name="to_print" string="Print SPJ"
+                                class="oe_highlight"/>
+                        <button type="object" name="to_cancel" string="Cancel"
+                                states="draft,open"/>
+                        <field name="state" widget="statusbar"
+                               statusbar_visible="draft,open,done"/>
+                    </header>
+
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="truck_id" create="0" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="type_truck"/>
+                                <field name="driver_id" create="0" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="customer_id" create="0" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="kuli_id" create="0" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="solar_id" create="0" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="tol_id" create="0" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="parkir_id" create="0" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            </group>
+                            <group>
+                                <field name="source_loc_id" attrs="{'readonly': [('state', '=', 'done')]}"/>
+                                <field name="source_group_loc_id" />
+                                <field name="dest_loc_id" attrs="{'readonly': [('state', '=', 'done')]}"/>
+                                <field name="dest_group_loc_id" />
+                                <field name="dt_spj" attrs="{'readonly': [('state', '=', 'done')]}"/>
+                                <field name="no_bukti" attrs="{'readonly': [('state', '=', 'done')]}"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="tronton_dest_type" attrs="{'invisible': [('type_truck', '!=', 'tronton')], 'readonly': [('state', '=', 'done')]}"/>
+                                <field name="colt_dest_type" attrs="{'invisible': [('type_truck', '!=', 'diesel')], 'readonly': [('state', '=', 'done')]}"/>
+                                <field name="product_id" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="jumlah_barang" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="harga_persak" attrs="{'invisible': ['|', ('type_truck', '!=', 'tronton'), ('tronton_dest_type', '!=', 'semen_pabrik')], 'readonly': [('state', '=', 'done')]}"/>
+                                <field name="sangu_driver" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="sangu_kuli" attrs="{'invisible': [('type_truck', '!=', 'diesel')], 'readonly': [('state', '=', 'done')]}"/>
+                                <field name="solar" attrs="{'invisible': [('type_truck', '!=', 'diesel')], 'readonly': [('state', '=', 'done')]}"/>
+                                <field name="tol" attrs="{'invisible': [('type_truck', '!=', 'diesel')], 'readonly': [('state', '=', 'done')]}"/>
+                                <field name="parkir" attrs="{'invisible': [('type_truck', '!=', 'diesel')], 'readonly': [('state', '=', 'done')]}"/>
+                                <field name="price" attrs="{'readonly': ['|', ('type_truck', '!=', 'tronton'), ('tronton_dest_type', '!=', 'other'), '|', ('type_truck', '!=', 'diesel'), ('colt_dest_type', '!=', 'other')]}"/>
+                                <field name="total" readonly="1"/>
+                            </group>
+                            <group>
+                            </group>
+                        </group>
+                        <field name="id" invisible="1"/>
+                        <notebook>
+                            <page string="Invoice">
+                                <field name="invoice_ids" readonly="1" nolabel="1"/>
+                            </page>
+                            <page string="Other Info">
+                                <group>
+                                    <group attrs="{'invisible': [('create_uid', '=', False)]}">
+                                        <field name="create_uid" readonly="1"/>
+                                        <field name="create_date" readonly="1"/>
+                                    </group>
+                                    <group>
+                                    </group>
+                                </group>
+                                <separator string="Note"/>
+                                <field name="note"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <!--#########################################################################################################-->
+        <!--Act Window-->
+        <!--#########################################################################################################-->
+        <record model="ir.actions.act_window" id="act_dalsil_ritase">
+            <field name="name">Ritase</field>
+            <field name="res_model">dalsil.ritase</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{'readonly_by_pass': True}</field>
+            <field name="view_type">form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Click here to create Ritase.</p>
+            </field>
+        </record>
+
+        <!--#########################################################################################################-->
+    </data>
+</odoo>

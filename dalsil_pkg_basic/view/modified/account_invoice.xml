@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="inherit_invoice_form" model="ir.ui.view">
+            <field name="name">account.invoice.form.inherit</field>
+            <field name="model">account.invoice</field>
+            <field name="priority">16</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//button[@name='%(account.action_account_invoice_refund)d']" position="after">
+                        <button type="object" name="generate_excel" string="Print Excel"
+                                class="oe_highlight"/>
+                        <button type="object" name="generate_excel_do" string="Print DO Excel"
+                                class="oe_highlight"/>
+                    </xpath>
+                    <xpath expr="//button[@name='%(account.action_account_invoice_refund)d']" position="attributes">
+                        <attribute name="invisible">1</attribute>
+                    </xpath>
+                    <xpath expr="//button[@name='action_invoice_sent']" position="attributes">
+                        <attribute name="invisible">1</attribute>
+                    </xpath>
+                    <!-- <xpath expr="//button[@name='action_invoice_proforma2']" position="after">
+                        <button name="to_allowed_plafon" type="object" states="draft" string="Allowed bypass plafon" class="oe_highlight" groups="dalsil_pkg_basic.group_direktur"/>
+                    </xpath> -->
+                    <xpath expr="//tree/field[@name='quantity']" position="after">
+                        <!-- <field name="qty_return" readonly="1"/> -->
+                        <field name="jenis_inv" invisible="1"/>
+                        <field name="location_id" create="0" ttrs="{'readonly': [('jenis_inv', 'not in', ['use'])], 'required': [('jenis_inv', 'in', ['use'])]}"/>
+                    </xpath>
+                    <xpath expr="//field[@name='user_id']" position="replace">
+                        <field name="sales_id"/>
+                    </xpath>
+                    <xpath expr="//field[@name='payment_term_id']" position="attributes">
+                        <attribute name="required">1</attribute>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+
+        <record id="inherit_account_invoice_supplier_form" model="ir.ui.view">
+            <field name="name">account.invoice.supplier.form.inherit</field>
+            <field name="model">account.invoice</field>
+            <field name="priority">16</field>
+            <field name="inherit_id" ref="account.invoice_supplier_form"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//field[@name='partner_id']" position="after">
+                        <field name="jenis_inv" invisible="1"/>
+                        <!-- <field name="picking_type_id" attrs="{'invisible': [('jenis_inv', 'not in', ['purchase', 'invoice'])], 'required': [('jenis_inv', 'in', ['purchase', 'invoice'])]}"/> -->
+                        <field name="location_id" create="0" attrs="{'invisible': [('jenis_inv', 'not in', ['purchase'])], 'required': [('jenis_inv', 'in', ['purchase'])]}"/>
+                    </xpath>
+                    <xpath expr="//button[@name='%(account.action_account_invoice_refund)d']" position="attributes">
+                        <attribute name="invisible">1</attribute>
+                    </xpath>
+                    <!-- <xpath expr="//tree/field[@name='quantity']" position="after">
+                        <field name="qty_return" readonly="1"/>
+                    </xpath> -->
+                    <!-- <xpath expr="//field[@name='number']" position="attributes">
+                        <attribute name="invisible">1</attribute>
+                    </xpath> -->
+                    <!-- <xpath expr="//field[@name='partner_id']" position="before">
+                        <field name="nomor_urut" />
+                    </xpath> -->
+                </data>
+            </field>
+        </record>
+
+        <!-- <record id="inherit_account_invoice_tree" model="ir.ui.view">
+            <field name="name">account.invoice.tree.inherit</field>
+            <field name="model">account.invoice</field>
+            <field name="priority">16</field>
+            <field name="inherit_id" ref="account.invoice_tree"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//field[@name='number']" position="replace">
+                        <field name="nomor_urut" />
+                    </xpath>
+                </data>
+            </field>
+        </record>
+
+        <record id="inherit_account_invoice_search" model="ir.ui.view">
+            <field name="name">account.invoice.search.inherit</field>
+            <field name="model">account.invoice</field>
+            <field name="priority">16</field>
+            <field name="inherit_id" ref="account.view_account_invoice_filter"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//field[@name='number']" position="before">
+                        <field name="nomor_urut" />
+                    </xpath>
+                </data>
+            </field>
+        </record> -->
+
+        <record id="account.action_invoice_tree1" model="ir.actions.act_window">
+            <field name="domain">[('type','in',('out_invoice', 'out_refund')), ('jenis_inv','=','invoice')]</field>
+            <field name="context">{'default_type':'out_invoice', 'default_journal_type': 'sale','default_jenis_inv':'invoice'}</field>
+        </record>
+
+        <record id="act_dalsil_acc_inv_tree_purc" model="ir.actions.act_window">
+            <field name="name">Sparepart Purchase</field>
+            <field name="res_model">account.invoice</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field eval="False" name="view_id"/>
+            <field name="domain">[('type','in',('in_invoice', 'in_refund')), ('jenis_inv','=','purchase')]</field>
+            <field name="context">{'default_type': 'in_invoice', 'default_journal_type': 'purchase', 'default_jenis_inv':'purchase'}</field>
+            <field name="search_view_id" ref="account.view_account_invoice_filter"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to record a new vendor bill.
+              </p><p>
+                You can control the invoice from your vendor according to
+                what you purchased or received.
+              </p>
+            </field>
+        </record>
+
+        <record id="act_dalsil_acc_inv_tree_sangu_driver" model="ir.actions.act_window">
+            <field name="name">Bill Sangu Driver</field>
+            <field name="res_model">account.invoice</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field eval="False" name="view_id"/>
+            <field name="domain">[('type','in',('in_invoice', 'in_refund')), ('jenis_inv','=','sangu_driver')]</field>
+            <field name="context">{'default_type':'in_invoice', 'default_jenis_inv':'sangu_driver'}</field>
+            <field name="search_view_id" ref="account.view_account_invoice_filter"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to create a Bill Sangu Driver.
+                </p>
+            </field>
+        </record>
+
+        <record id="act_dalsil_acc_inv_tree_sangu_kuli" model="ir.actions.act_window">
+            <field name="name">Bill Sangu Kuli</field>
+            <field name="res_model">account.invoice</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field eval="False" name="view_id"/>
+            <field name="domain">[('type','in',('in_invoice', 'in_refund')), ('jenis_inv','=','sangu_kuli')]</field>
+            <field name="context">{'default_type':'in_invoice', 'default_jenis_inv':'sangu_kuli'}</field>
+            <field name="search_view_id" ref="account.view_account_invoice_filter"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to create a Bill Sangu Kuli.
+                </p>
+            </field>
+        </record>
+
+        <record id="act_dalsil_acc_inv_tree_solar" model="ir.actions.act_window">
+            <field name="name">Bill Solar</field>
+            <field name="res_model">account.invoice</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field eval="False" name="view_id"/>
+            <field name="domain">[('type','in',('in_invoice', 'in_refund')), ('jenis_inv','=','solar')]</field>
+            <field name="context">{'default_type':'in_invoice', 'default_jenis_inv':'solar'}</field>
+            <field name="search_view_id" ref="account.view_account_invoice_filter"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to create a Bill Solar.
+                </p>
+            </field>
+        </record>
+
+        <record id="act_dalsil_acc_inv_tree_tol" model="ir.actions.act_window">
+            <field name="name">Bill Tol</field>
+            <field name="res_model">account.invoice</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field eval="False" name="view_id"/>
+            <field name="domain">[('type','in',('in_invoice', 'in_refund')), ('jenis_inv','=','tol')]</field>
+            <field name="context">{'default_type':'in_invoice', 'default_jenis_inv':'tol'}</field>
+            <field name="search_view_id" ref="account.view_account_invoice_filter"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to create a Bill Tol.
+                </p>
+            </field>
+        </record>
+
+        <record id="act_dalsil_acc_inv_tree_parkir" model="ir.actions.act_window">
+            <field name="name">Bill Parkir</field>
+            <field name="res_model">account.invoice</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field eval="False" name="view_id"/>
+            <field name="domain">[('type','in',('in_invoice', 'in_refund')), ('jenis_inv','=','parkir')]</field>
+            <field name="context">{'default_type':'in_invoice', 'default_jenis_inv':'parkir'}</field>
+            <field name="search_view_id" ref="account.view_account_invoice_filter"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to create a Bill Parkir.
+                </p>
+            </field>
+        </record>
+
+        <record id="act_dalsil_acc_inv_tree_invoice" model="ir.actions.act_window">
+            <field name="name">Invoice Sewa Truck</field>
+            <field name="res_model">account.invoice</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field eval="False" name="view_id"/>
+            <field name="domain">[('type','in',('out_invoice', 'out_refund')), ('jenis_inv','=','invoice')]</field>
+            <field name="context">{'default_type':'out_invoice', 'default_jenis_inv':'invoice'}</field>
+            <field name="search_view_id" ref="account.view_account_invoice_filter"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to create a Invoice Sewa Truck.
+                </p>
+            </field>
+        </record>
+
+    </data>
+</odoo>

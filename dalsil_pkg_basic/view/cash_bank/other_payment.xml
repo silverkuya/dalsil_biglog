@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <!--#########################################################################################################-->
+        <!-- SEARCH -->
+        <!--#########################################################################################################-->
+        <record id="view_dalsil_cash_bank_op_search" model="ir.ui.view">
+            <field name="name">dalsil.cash_bank.op.search</field>
+            <field name="model">dalsil.cash_bank.op</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="date"/>
+                    <field name="account_id"/>
+                    <field name="memo"/>
+                    <field name="state"/>
+                    <group string="Group By">
+                        <filter name="group_state" string="State" context="{'group_by': 'state'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!--#########################################################################################################-->
+        <!--Group Tree View-->
+        <!--#########################################################################################################-->
+        <record model="ir.ui.view" id="view_dalsil_cash_bank_op_tree">
+            <field name="name">dalsil.cash_bank.op.tree</field>
+            <field name="model">dalsil.cash_bank.op</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="date"/>
+                    <field name="account_id"/>
+                    <field name="memo"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <!--#########################################################################################################-->
+        <!-- FORM -->
+        <!--#########################################################################################################-->
+        <record id="view_dalsil_cash_bank_op_form" model="ir.ui.view">
+            <field name="name">dalsil.cash_bank.op.form</field>
+            <field name="model">dalsil.cash_bank.op</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button type="object" name="to_post" string="Post"
+                                class="oe_highlight"
+                                states="draft"/>
+                        <!--<button type="object" name="to_cancel" string="Cancel"-->
+                                <!--states="draft"/>-->
+                        <field name="state" widget="statusbar"
+                               statusbar_visible="draft,post"/>
+                    </header>
+
+                    <sheet>
+                        <div>
+                            <h1 class="mt0">
+                                <field name="name" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="account_id" create="0"/>
+                                <field name="date"/>
+                                <field name="amount" widget="monetary"/>
+                                <field name="memo"/>
+                            </group>
+                            <group>
+                                <field name="journal_id" invisible="0"/>
+                                <field name="move_id" attrs="{'invisible': [('move_id', '=', False)]}"/>
+                            </group>
+                        </group>
+                        <field name="id" invisible="1"/>
+                        <notebook>
+                            <page string="Items">
+                                <field name="line_ids" context="{'default_parent_id':id}"
+                                       attrs="{'readonly': [('state', 'not in', ['draft',False])]}" nolabel="1"/>
+                                <group class="oe_subtotal_footer oe_right">
+                                    <field name="total_pay" widget="monetary"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <!--#########################################################################################################-->
+        <!--Act Window-->
+        <!--#########################################################################################################-->
+        <record model="ir.actions.act_window" id="act_dalsil_cash_bank_op">
+            <field name="name">Other Payment</field>
+            <field name="res_model">dalsil.cash_bank.op</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+            <field name="view_type">form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Click here to create Other Payment.</p>
+            </field>
+        </record>
+
+        <!--#########################################################################################################-->
+    </data>
+</odoo>

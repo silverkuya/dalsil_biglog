@@ -1,0 +1,196 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+    <data>
+        <!-- driver partner view search -->
+        <record id="inherit_res_partner_driver_search" model="ir.ui.view">
+            <field name="name">partner.driver.search.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_res_partner_filter"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//filter[@name='customer']" position="after">
+                        <filter string="Drivers" name="driver" domain="[('is_driver','=',1), ('parent_id', '=', False)]"/>
+                        <filter string="Sales" name="sales" domain="[('is_sales','=',1), ('parent_id', '=', False)]"/>
+                        <filter string="Kuli" name="kuli" domain="[('is_kuli','=',1), ('parent_id', '=', False)]"/>
+                        <filter string="Solar" name="solar" domain="[('is_solar','=',1), ('parent_id', '=', False)]"/>
+                        <filter string="Tol" name="tol" domain="[('is_tol','=',1), ('parent_id', '=', False)]"/>
+                        <filter string="Parkir" name="parkir" domain="[('is_parkir','=',1), ('parent_id', '=', False)]"/>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+
+        <!-- partner view form -->
+        <record id="inherit_res_partner_driver_form" model="ir.ui.view">
+            <field name="name">partner.driver.form.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="priority">16</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//group[@name='purchase']" position="after">
+                        <group string="Driver" name="driver">
+                            <field name="is_driver"/>
+                        </group>
+                        <group string="Sales" name="sales">
+                            <field name="is_sales"/>
+                        </group>
+                        <group string="Kuli" name="kuli">
+                            <field name="is_kuli"/>
+                        </group>
+                        <group string="Solar" name="solar">
+                            <field name="is_solar"/>
+                        </group>
+                        <group string="Tol" name="tol">
+                            <field name="is_tol"/>
+                        </group>
+                        <group string="Parkir" name="parkir">
+                            <field name="is_parkir"/>
+                        </group>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+
+        <!-- base partner view form -->
+        <record id="inherit_res_partner_form" model="ir.ui.view">
+            <field name="name">partner.form.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="priority">16</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//field[@name='street2']" position="after">
+                        <field name="block" placeholder="Blok" class="o_address_zip"/>
+                        <field name="number" placeholder="Number" class="o_address_zip"/>
+                        <field name="rt" placeholder="RT" class="o_address_zip"/>
+                        <field name="rw" placeholder="RW" class="o_address_zip"/>
+                        <field name="kelurahan" placeholder="Kelurahan" class="o_address_city"/>
+                        <field name="kecamatan" placeholder="Kecamatan" class="o_address_city"/>
+                    </xpath>
+                    <xpath expr="//field[@name='user_id']" position="after">
+                        <field name="plafon"/>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+        <!--#########################################################################################################-->
+
+
+        <!-- act window driver -->
+        <record id="action_partner_driver_form" model="ir.actions.act_window">
+            <field name="name">Drivers</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_type">form</field>
+            <field name="domain">[]</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="context">{'search_default_driver': 1,'default_customer': 0,'default_is_driver': 1}</field>
+            <field name="filter" eval="True"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to add a contact in your address book.
+              </p><p>
+                Odoo helps you easily track all activities related to
+                a driver: discussions, documents, etc.
+              </p>
+            </field>
+        </record>
+
+        <record id="action_partner_kuli_form" model="ir.actions.act_window">
+            <field name="name">Kuli</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_type">form</field>
+            <field name="domain">[]</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="context">{'search_default_kuli': 1,'default_customer': 0,'default_is_kuli': 1}</field>
+            <field name="filter" eval="True"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to add a contact in your address book.
+              </p><p>
+                Odoo helps you easily track all activities related to
+                a kuli: discussions, documents, etc.
+              </p>
+            </field>
+        </record>
+
+        <record id="action_partner_solar_form" model="ir.actions.act_window">
+            <field name="name">Solar</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_type">form</field>
+            <field name="domain">[]</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="context">{'search_default_solar': 1,'default_customer': 0,'default_is_solar': 1}</field>
+            <field name="filter" eval="True"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to add a contact in your address book.
+              </p><p>
+                Odoo helps you easily track all activities related to
+                a solar: discussions, documents, etc.
+              </p>
+            </field>
+        </record>
+
+        <record id="action_partner_tol_form" model="ir.actions.act_window">
+            <field name="name">Tol</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_type">form</field>
+            <field name="domain">[]</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="context">{'search_default_tol': 1,'default_customer': 0,'default_is_tol': 1}</field>
+            <field name="filter" eval="True"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to add a contact in your address book.
+              </p><p>
+                Odoo helps you easily track all activities related to
+                a tol: discussions, documents, etc.
+              </p>
+            </field>
+        </record>
+
+        <record id="action_partner_parkir_form" model="ir.actions.act_window">
+            <field name="name">Parkir</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_type">form</field>
+            <field name="domain">[]</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="context">{'search_default_parkir': 1,'default_customer': 0,'default_is_parkir': 1}</field>
+            <field name="filter" eval="True"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to add a contact in your address book.
+              </p><p>
+                Odoo helps you easily track all activities related to
+                a parkir: discussions, documents, etc.
+              </p>
+            </field>
+        </record>
+        <!-- act window sales -->
+        <record id="action_partner_sales_form" model="ir.actions.act_window">
+            <field name="name">Sales</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_type">form</field>
+            <field name="domain">[]</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="context">{'search_default_sales': 1,'default_sales': 0,'default_is_sales': 1}</field>
+            <field name="filter" eval="True"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to add a contact in your address book.
+              </p><p>
+                Odoo helps you easily track all activities related to
+                a sales: discussions, documents, etc.
+              </p>
+            </field>
+        </record>
+        <!--#########################################################################################################-->
+    </data>
+</odoo>

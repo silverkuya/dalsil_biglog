@@ -1,0 +1,185 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+    <data>
+        <!-- Parent Menu -->
+        <menuitem id="dalsil_menu" name="Menu" sequence="1"/>
+        <!-- Gudang -->
+        <menuitem id="dalsil_menu_gudang" name="Gudang" sequence="9"
+                  parent="dalsil_menu"/>
+        <menuitem id="dalsil_menu_product" name="Product" sequence="10"
+                  action="product.product_template_action" parent="dalsil_menu_gudang"/>
+        <menuitem id="dalsil_menu_stock_picking" name="Internal Transfer" sequence="20"
+                  action="stock.action_picking_tree_all" parent="dalsil_menu_gudang"/>
+        <menuitem id="dalsil_menu_stock_inv_adj" name="Inventory Adjusment" sequence="30"
+                  action="stock.action_inventory_form" parent="dalsil_menu_gudang"/>
+        <menuitem id="dalsil_menu_group_location" name="Grup Lokasi" sequence="40"
+                  action="act_dalsil_group_location" parent="dalsil_menu_gudang"/>
+        <menuitem id="dalsil_menu_stock_location" name="Lokasi" sequence="50"
+                  action="stock.action_location_form" parent="dalsil_menu_gudang"/>
+
+        <!-- Trucking -->
+        <menuitem id="dalsil_menu_trucking" name="Trucking" sequence="10"
+                  parent="dalsil_menu"/>
+
+        <menuitem id="dalsil_menu_ritase" name="Ritase" sequence="10"
+                  action="act_dalsil_ritase" parent="dalsil_menu_trucking"/>
+
+        <menuitem id="dalsil_menu_truck" name="Trucks" sequence="40"
+                  action="act_dalsil_truck" parent="dalsil_menu_trucking"/>
+        <menuitem id="dalsil_menu_driver" name="Drivers" sequence="50"
+                  action="action_partner_driver_form" parent="dalsil_menu_trucking"/>
+        <menuitem id="dalsil_menu_kuli" name="Kuli" sequence="60"
+                  action="action_partner_kuli_form" parent="dalsil_menu_trucking"/>
+        <menuitem id="dalsil_menu_solar" name="Solar" sequence="70"
+                  action="action_partner_solar_form" parent="dalsil_menu_trucking"/>
+        <menuitem id="dalsil_menu_tol" name="Tol" sequence="80"
+                  action="action_partner_tol_form" parent="dalsil_menu_trucking"/>
+        <menuitem id="dalsil_menu_parkir" name="Parkir" sequence="90"
+                  action="action_partner_parkir_form" parent="dalsil_menu_trucking"/>
+
+
+        <!-- Penjualan -->
+        <menuitem id="dalsil_menu_sales" name="Sales" sequence="20"
+                  parent="dalsil_menu"/>
+
+        <!-- <menuitem id="dalsil_menu_partner_sales" name="Sales" sequence="10"
+                  action="action_partner_sales_form" parent="dalsil_menu_sales"/> -->
+        <menuitem id="dalsil_menu_cust_inv" name="Customer Invoice" sequence="20"
+                  action="account.action_invoice_tree1" parent="dalsil_menu_sales"/>
+        
+<!-- 
+        <menuitem id="dalsil_menu_customer_return" name="Customer Return" sequence="30"
+                  action="act_dalsil_customer_return" parent="dalsil_menu_sales"/>
+
+        <menuitem id="dalsil_menu_invoice_rent" name="Sewa Truck Invoices" sequence="40"
+                  action="act_dalsil_acc_inv_tree_rent" parent="dalsil_menu_sales"/>
+
+        <menuitem id="dalsil_menu_rent_payment" name="Sewa Truck Payment" sequence="45"
+                  action="act_dalsil_gen_pay_inv_rent" parent="dalsil_menu_sales"/>
+
+        <menuitem id="dalsil_menu_invoice_fee" name="Fee Invoices" sequence="50"
+                  action="act_dalsil_acc_inv_tree_fee" parent="dalsil_menu_sales"/>
+
+        <menuitem id="dalsil_menu_fee_sales" name="Fee Sales" sequence="60"
+                  action="act_dalsil_fee_sales" parent="dalsil_menu_sales"/>
+
+        <menuitem id="dalsil_menu_gen_fee_sales" name="Generate Invoice Fee Sales" 
+                  sequence="70" action="act_dalsil_gen_fee_sales" 
+                  parent="dalsil_menu_sales"/>
+ -->
+       <!--  <menuitem id="dalsil_menu_cust_payments" name="Payments" sequence="70"
+                  action="account.action_account_payments" parent="dalsil_menu_sales"/> -->
+
+        <!-- <menuitem id="dalsil_menu_cg_in" name="Incoming Check Giro" sequence="80"
+                  action="act_dalsil_cg_in" parent="dalsil_menu_sales"/> -->
+
+        <menuitem id="dalsil_menu_customer" name="Customers" sequence="90"
+                  action="base.action_partner_customer_form" parent="dalsil_menu_sales"/>
+
+        
+
+
+        <!-- Pembelian -->
+        <menuitem id="dalsil_menu_purchase" name="Purchases" sequence="30"
+                  parent="dalsil_menu"/>
+
+        <menuitem id="dalsil_menu_vendor_bill" name="Purchase Sparepart" sequence="10"
+                  action="act_dalsil_acc_inv_tree_purc" parent="dalsil_menu_purchase"/>
+        <menuitem id="dalsil_menu_inv_sangu_driver" name="Bill Sangu Driver" sequence="30"
+                  action="act_dalsil_acc_inv_tree_sangu_driver" parent="dalsil_menu_purchase"/>
+        <menuitem id="dalsil_menu_inv_sangu_kuli" name="Bill Sangu Kuli" sequence="40"
+                  action="act_dalsil_acc_inv_tree_sangu_kuli" parent="dalsil_menu_purchase"/>
+        <menuitem id="dalsil_menu_inv_solar" name="Bill Solar" sequence="50"
+                  action="act_dalsil_acc_inv_tree_solar" parent="dalsil_menu_purchase"/>
+        <menuitem id="dalsil_menu_inv_tol" name="Bill Tol" sequence="60"
+                  action="act_dalsil_acc_inv_tree_tol" parent="dalsil_menu_purchase"/>
+        <menuitem id="dalsil_menu_inv_parkir" name="Bill Parkir" sequence="70"
+                  action="act_dalsil_acc_inv_tree_parkir" parent="dalsil_menu_purchase"/>
+
+        <!-- <menuitem id="dalsil_menu_supplier_return" name="Supplier Return" sequence="20"
+                  action="act_dalsil_supplier_return" parent="dalsil_menu_purchase"/>
+
+        <menuitem id="dalsil_menu_sangu_bill" name="Sangu Bills" sequence="30"
+                  action="act_dalsil_acc_inv_tree_sangu" parent="dalsil_menu_purchase"/>
+
+        <menuitem id="dalsil_menu_sangu_payment" name="Sangu Payment" sequence="35"
+                  action="act_dalsil_gen_pay_inv_sangu" parent="dalsil_menu_purchase"/> -->
+<!-- 
+        <menuitem id="dalsil_menu_vendor_payments" name="Payments" sequence="40"
+                  action="account.action_account_payments_payable" parent="dalsil_menu_purchase"/> -->
+
+        <!-- <menuitem id="dalsil_menu_cg_out" name="Outgoing Check Giro" sequence="50"
+                  action="act_dalsil_cg_out" parent="dalsil_menu_purchase"/> -->
+
+        <menuitem id="dalsil_menu_vendor" name="Vendors" sequence="80"
+                  action="base.action_partner_supplier_form" parent="dalsil_menu_purchase"/>
+
+
+        <!-- Menu Accounting -->
+        <menuitem id="dalsil_menu_accounting" name="Adviser" sequence="40"
+                  parent="dalsil_menu"/>
+
+        <menuitem id="dalsil_menu_account" name="Chart of Accounts" sequence="10"
+                  action="account.action_account_form" parent="dalsil_menu_accounting"/>
+
+        <menuitem id="dalsil_menu_cash_bank_od" name="Other Deposit" sequence="20"
+                  action="act_dalsil_cash_bank_od" parent="dalsil_menu_accounting"/>
+
+        <menuitem id="dalsil_menu_cash_bank_op" name="Other Payment" sequence="30"
+                  action="act_dalsil_cash_bank_op" parent="dalsil_menu_accounting"/>
+
+        <!-- <menuitem id="dalsil_menu_journal_voucher" name="Journal Voucher" sequence="40"
+                  action="act_dalsil_journal_voucher" parent="dalsil_menu_accounting"/> -->
+
+        <menuitem id="dalsil_menu_account_move_line" name="Journal Items" sequence="60"
+                  action="account.action_account_moves_all_a" parent="dalsil_menu_accounting"/>
+
+        <menuitem id="dalsil_menu_account_move" name="Journal Entries" sequence="70"
+                  action="account.action_move_journal_line" parent="dalsil_menu_accounting"/>
+
+
+        <!-- Menu Laporan -->
+        <menuitem id="dalsil_menu_report" name="Reports" sequence="100"
+                  parent="dalsil_menu"/>
+
+        <menuitem id="dalsil_menu_general_ledger" name="General Ledger" sequence="10"
+                  action="account_financial_report_qweb.action_general_ledger_wizard" parent="dalsil_menu_report"/>
+       <!--  <menuitem id="dalsil_menu_report_stock" name="Laporan Stok" sequence="20"
+                  action="act_dalsil_report_stock" parent="dalsil_menu_report"/>
+        <menuitem id="dalsil_menu_report_summary_stock" name="Laporan Summary Stok" sequence="30"
+                  action="act_dalsil_report_summary_stock" parent="dalsil_menu_report"/> -->
+        <menuitem id="dalsil_menu_report_invoice" name="Laporan Invoice" sequence="40"
+                  action="act_dalsil_report_invoice" parent="dalsil_menu_report"/>
+        <menuitem id="dalsil_menu_report_ritase" name="Laporan Ritase" sequence="50"
+                  action="act_dalsil_report_ritase" parent="dalsil_menu_report"/>
+
+
+        <!-- Menu Configuration -->
+        <menuitem id="dalsil_menu_config" name="Configuration" sequence="999"
+                  parent="dalsil_menu"/>
+
+        <menuitem id="dalsil_config_setting" name="Settings" sequence="10"
+                  action="act_dalsil_config" parent="dalsil_menu_config"/>
+
+        <menuitem id="dalsil_config_accounting" name="Accounting" sequence="20"
+                  parent="dalsil_menu_config"/>
+
+        <menuitem id="dalsil_menu_account_tax" name="Taxes" sequence="10"
+                  action="account.action_tax_form" parent="dalsil_config_accounting"/>
+        <menuitem id="dalsil_menu_account_bank" name="Bank Accounts" sequence="20"
+                  action="account.action_account_bank_journal_form" parent="dalsil_config_accounting"/>
+        <menuitem id="dalsil_menu_account_journal" name="Journals" sequence="30"
+                  action="account.action_account_journal_form" parent="dalsil_config_accounting"/>
+
+        <menuitem id="dalsil_menu_date_range" name="Date ranges" parent="dalsil_config_accounting" sequence="30"/>
+        <menuitem id="dalsil_menu_date_range_action"
+                  action="date_range.date_range_action" sequence="10"
+                  parent="dalsil_menu_date_range"/>
+        <menuitem id="dalsil_menu_date_range_type_action"
+                  action="date_range.date_range_type_action" sequence="20"
+                  parent="dalsil_menu_date_range"/>
+<!-- 
+        <menuitem id="dalsil_start_stock" name="Stock Awal Bulan" sequence="40"
+                  action="act_dalsil_start_stock" parent="dalsil_menu_config"/> -->
+    </data>
+</odoo>

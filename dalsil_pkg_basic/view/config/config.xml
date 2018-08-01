@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+    <data noupdate="1">
+        <record id="dalsil_config" model="dalsil.config">
+            <field name="product_sangu_driver"></field>
+            <field name="product_sangu_kuli"></field>
+            <field name="product_solar"></field>
+            <field name="product_tol"></field>
+            <field name="product_parkir"></field>
+            <field name="product_semen"></field>
+            <field name="product_bata"></field>
+            <field name="acc_sangu_driver"></field>
+            <field name="acc_sangu_kuli"></field>
+            <field name="acc_solar"></field>
+            <field name="acc_tol"></field>
+            <field name="acc_parkir"></field>
+            <field name="acc_invoice"></field>
+            <field name="tronton_bata_ringan_multiply">0</field>
+            <field name="tronton_semen_gudang_price">0</field>
+            <field name="colt_semen_gudang_price">0</field>
+            <field name="colt_bata_pabrik_price">0</field>
+            <field name="colt_bata_gudang_price">0</field>
+            <field name="purc_journal_id"></field>
+            <field name="purc_acc_credit_id"></field>
+            <field name="purc_acc_debit_id"></field>
+            <field name="inv_journal_id"></field>
+            <field name="inv_acc_credit_id"></field>
+            <field name="inv_acc_debit_tronton_id"></field>
+            <field name="inv_acc_debit_colt_id"></field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <!--#########################################################################################################-->
+        <!-- SEARCH -->
+        <!--#########################################################################################################-->
+        <record id="view_dalsil_group_location_search" model="ir.ui.view">
+            <field name="name">dalsil.group_location.search</field>
+            <field name="model">dalsil.group_location</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="note"/>
+                    <field name="active"/>
+                    <group string="Group By">
+                        <filter name="group_active" string="Active" context="{'group_by': 'active'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!--#########################################################################################################-->
+        <!--Group Tree View-->
+        <!--#########################################################################################################-->
+        <record model="ir.ui.view" id="view_dalsil_group_location_tree">
+            <field name="name">dalsil.group_location.tree</field>
+            <field name="model">dalsil.group_location</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="note"/>
+                    <field name="active"/>
+                </tree>
+            </field>
+        </record>
+
+        <!--#########################################################################################################-->
+        <!-- FORM -->
+        <!--#########################################################################################################-->
+        <record id="view_dalsil_group_location_form" model="ir.ui.view">
+            <field name="name">dalsil.group_location.form</field>
+            <field name="model">dalsil.group_location</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="note"/>
+                                <field name="active"/>
+                            </group>
+                            <group>
+                            </group>
+                        </group>
+                        <separator string="Pricelist"/>
+                        <field name="price_ids"/>
+                        <separator string="Lokasi"/>
+                        <field name="location_ids"/>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <!--#########################################################################################################-->
+        <!--Act Window-->
+        <!--#########################################################################################################-->
+        <record model="ir.actions.act_window" id="act_dalsil_group_location">
+            <field name="name">Grup Lokasi</field>
+            <field name="res_model">dalsil.group_location</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+            <field name="view_type">form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Click here to create Grup Lokasi.</p>
+            </field>
+        </record>
+
+        <!--#########################################################################################################-->
+    </data>
+</odoo>
