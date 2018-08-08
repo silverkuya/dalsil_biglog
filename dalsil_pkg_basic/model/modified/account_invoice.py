@@ -16,6 +16,7 @@ JENIS_INVOICE = (
     ("solar", _("Solar")),
     ("tol", _("Tol")),
     ("parkir", _("Parkir")),
+    ("premi", _("Premi")),
 )
 
 class AccountInvoice(models.Model):
@@ -24,6 +25,7 @@ class AccountInvoice(models.Model):
     """
     _inherit = "account.invoice"
 
+    nomor_invoice = fields.Char("Nomor Invoice")
     sales_id = fields.Many2one("res.partner", "Sales", domain="[('active', '=', True), ('is_sales', '=', True)]")
     jenis_inv = fields.Selection(JENIS_INVOICE, "Jenis Invoice", default=JENIS_INVOICE[0][0])
     picking_type_id = fields.Many2one("stock.picking.type", "Picking Type")
@@ -364,7 +366,7 @@ class AccountInvoice(models.Model):
         ws.row(5).height_mismatch = 1
         ws.row(5).height = 280
 
-        ws.write(y, x, "{} {}".format(title, self.number), style=style_header)
+        ws.write(y, x, "{} {}".format(title, self.nomor_invoice), style=style_header)
         y += 1
         ws.write(y, x, "Tanggal Invoice", style=style_default)
         ws.write(y, x+2, self.date_invoice, style=style_default)
@@ -424,7 +426,7 @@ class AccountInvoice(models.Model):
         fp.close()
 
         return self.env["ss.download"].download(
-            "Invoice_{}.xls".format(self.number),
+            "Invoice_{}.xls".format(self.nomor_invoice),
             data
         )
 
@@ -468,7 +470,7 @@ class AccountInvoice(models.Model):
         # ws.col(x + 3).width = 4500
         # ws.col(x + 4).width = 6000
 
-        ws.write(y, x, "{} {}".format(title, self.number), style=style_header)
+        ws.write(y, x, "{} {}".format(title, self.nomor_invoice), style=style_header)
         y += 1
         ws.write(y, x, "Tanggal Invoice", style=style_default)
         ws.write(y, x + 1, self.date_invoice, style=style_default)
@@ -522,6 +524,6 @@ class AccountInvoice(models.Model):
         fp.close()
 
         return self.env["ss.download"].download(
-            "Invoice_{}.xls".format(self.number),
+            "Invoice_{}.xls".format(self.nomor_invoice),
             data
         )

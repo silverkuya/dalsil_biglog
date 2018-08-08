@@ -34,6 +34,17 @@
             </field>
         </record>
 
+        <record model="ir.ui.view" id="view_dalsil_group_location_pricelist_tree">
+            <field name="name">dalsil.group_location_pricelist.tree</field>
+            <field name="model">dalsil.group_location_pricelist</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom">
+                    <field name="dest_group_id"/>
+                    <field name="price"/>
+                </tree>
+            </field>
+        </record>
+
         <!--#########################################################################################################-->
         <!-- FORM -->
         <!--#########################################################################################################-->

@@ -18,6 +18,7 @@ class ResPartner(models.Model):
     kelurahan = fields.Char('Kelurahan')
     kecamatan = fields.Char('Kecamatan')
 
+    truck_id = fields.Many2one("dalsil.truck", "Truck")
     plafon = fields.Float("Plafon", digits=(20,2))
 
     is_driver = fields.Boolean("Is a Driver", default=False)
@@ -26,6 +27,7 @@ class ResPartner(models.Model):
     is_solar = fields.Boolean("Is a Solar", default=False)
     is_tol = fields.Boolean("Is a Tol", default=False)
     is_parkir = fields.Boolean("Is a Parkir", default=False)
+    is_premi = fields.Boolean("Is a Premi", default=False)
 
     @api.model
     @api.returns("self", lambda x: x.id)

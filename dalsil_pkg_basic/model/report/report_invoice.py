@@ -135,7 +135,7 @@ class ReportInvoice(models.TransientModel):
         grand_qty = 0
         for invoice_line_id in invoice_line_ids:
             ws.write(y, x, no_urut, style=style_table)
-            ws.write(y, x+1, invoice_line_id.invoice_id.number, style=style_table)
+            ws.write(y, x+1, invoice_line_id.invoice_id.nomor_invoice, style=style_table)
             ws.write(y, x+2, invoice_line_id.invoice_id.date_invoice, style=style_table)
             ws.write(y, x+3, invoice_line_id.invoice_id.state, style=style_table)
             ws.write(y, x+4, invoice_line_id.invoice_id.sales_id.name, style=style_table)

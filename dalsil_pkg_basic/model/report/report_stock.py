@@ -138,7 +138,7 @@ class ReportStock(models.TransientModel):
                 stock_awal += beli
             ws.write(y, x, stock_move.date, style=style_table)
             ws.write(y, x+1, stock_move.acc_inv_id.partner_id.name, style=style_table)
-            ws.write(y, x+2, stock_move.acc_inv_id.number, style=style_table)
+            ws.write(y, x+2, stock_move.acc_inv_id.nomor_invoice, style=style_table)
             ws.write(y, x+3, beli, style=style_table)
             ws.write(y, x+4, jual, style=style_table)
             ws.write(y, x+5, stock_awal, style=style_table)

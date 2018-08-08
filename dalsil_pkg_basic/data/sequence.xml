@@ -21,5 +21,12 @@
             <field name="prefix">OP/%(year)s/%(month)s/</field>
             <field name="padding">6</field>
         </record>
+
+        <record id="seq_dalsil_hutang_driver" model="ir.sequence">
+            <field name="name">Hutang Driver</field>
+            <field name="code">dalsil_hutang_driver</field>
+            <field name="prefix">HUT/%(year)s/%(month)s/</field>
+            <field name="padding">6</field>
+        </record>
     </data>
 </odoo>

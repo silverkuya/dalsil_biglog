@@ -23,11 +23,15 @@
 
         <menuitem id="dalsil_menu_ritase" name="Ritase" sequence="10"
                   action="act_dalsil_ritase" parent="dalsil_menu_trucking"/>
+        <menuitem id="dalsil_menu_hutang_driver" name="Hutang Driver" sequence="20"
+                  action="act_dalsil_hutang_driver" parent="dalsil_menu_trucking"/>
 
         <menuitem id="dalsil_menu_truck" name="Trucks" sequence="40"
                   action="act_dalsil_truck" parent="dalsil_menu_trucking"/>
         <menuitem id="dalsil_menu_driver" name="Drivers" sequence="50"
                   action="action_partner_driver_form" parent="dalsil_menu_trucking"/>
+        <menuitem id="dalsil_menu_premi" name="Premi" sequence="55"
+                  action="action_partner_premi_form" parent="dalsil_menu_trucking"/>
         <menuitem id="dalsil_menu_kuli" name="Kuli" sequence="60"
                   action="action_partner_kuli_form" parent="dalsil_menu_trucking"/>
         <menuitem id="dalsil_menu_solar" name="Solar" sequence="70"
@@ -95,6 +99,8 @@
                   action="act_dalsil_acc_inv_tree_tol" parent="dalsil_menu_purchase"/>
         <menuitem id="dalsil_menu_inv_parkir" name="Bill Parkir" sequence="70"
                   action="act_dalsil_acc_inv_tree_parkir" parent="dalsil_menu_purchase"/>
+        <menuitem id="dalsil_menu_inv_premi" name="Bill Premi" sequence="75"
+                  action="act_dalsil_acc_inv_tree_premi" parent="dalsil_menu_purchase"/>
 
         <!-- <menuitem id="dalsil_menu_supplier_return" name="Supplier Return" sequence="20"
                   action="act_dalsil_supplier_return" parent="dalsil_menu_purchase"/>

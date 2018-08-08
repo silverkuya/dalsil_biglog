@@ -20,6 +20,7 @@
         'view/modified/account_invoice.xml',
         'view/modified/product_template.xml',
         'view/modified/payment_term.xml',
+        'view/modified/stock_location.xml',
 
         'view/config/config.xml',
         'view/config/wiz_config.xml',
@@ -29,6 +30,8 @@
         # 'view/fee_sales/fee_sales.xml',
         # 'view/fee_sales/gen_fee_sales.xml',
         'view/ritase/ritase.xml',
+
+        'view/hutang_driver/hutang_driver.xml',
         # 'view/rent_truck/rent_truck_line.xml',
         # 'view/rent_truck/wiz_rent_truck.xml',
         # 'view/rent_truck/wiz_rent_truck_line_invoice.xml',

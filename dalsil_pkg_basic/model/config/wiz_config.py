@@ -14,6 +14,7 @@ class WizConfig(models.TransientModel):
     product_solar = fields.Many2one("product.product", "Product Solar")
     product_tol = fields.Many2one("product.product", "Product Tol")
     product_parkir = fields.Many2one("product.product", "Product Parkir")
+    product_premi = fields.Many2one("product.product", "Product Premi")
     product_semen = fields.Many2one("product.product", "Product Semen")
     product_bata = fields.Many2one("product.product", "Product Bata")
 
@@ -22,7 +23,14 @@ class WizConfig(models.TransientModel):
     acc_solar = fields.Many2one("account.account", "Account Solar")
     acc_tol = fields.Many2one("account.account", "Account Tol")
     acc_parkir = fields.Many2one("account.account", "Account Parkir")
+    acc_premi = fields.Many2one("account.account", "Account Premi")
     acc_invoice = fields.Many2one("account.account", "Account Invoice")
+
+    partner_sangu_kuli = fields.Many2one("res.partner", "Partner Sangu Kuli")
+    partner_solar = fields.Many2one("res.partner", "Partner Solar")
+    partner_tol = fields.Many2one("res.partner", "Partner Tol")
+    partner_parkir = fields.Many2one("res.partner", "Partner Parkir")
+    partner_premi = fields.Many2one("res.partner", "Partner Premi")
 
     tronton_bata_ringan_multiply = fields.Float("Bata Ringan Sangu Dibagi : ")
     tronton_semen_gudang_price = fields.Float("Biaya Semen Gudang ke Toko per Sack : ")
@@ -47,6 +55,7 @@ class WizConfig(models.TransientModel):
             "product_solar": self.product_solar.id,
             "product_tol": self.product_tol.id,
             "product_parkir": self.product_parkir.id,
+            "product_premi": self.product_premi.id,
             "product_semen": self.product_semen.id,
             "product_bata": self.product_bata.id,
             "acc_sangu_driver": self.acc_sangu_driver.id,
@@ -54,7 +63,13 @@ class WizConfig(models.TransientModel):
             "acc_solar": self.acc_solar.id,
             "acc_tol": self.acc_tol.id,
             "acc_parkir": self.acc_parkir.id,
+            "acc_premi": self.acc_premi.id,
             "acc_invoice": self.acc_invoice.id,
+            "partner_sangu_kuli": self.partner_sangu_kuli.id,
+            "partner_solar": self.partner_solar.id,
+            "partner_tol": self.partner_tol.id,
+            "partner_parkir": self.partner_parkir.id,
+            "partner_premi": self.partner_premi.id,
             "tronton_bata_ringan_multiply": self.tronton_bata_ringan_multiply,
             "tronton_semen_gudang_price": self.tronton_semen_gudang_price,
             "colt_semen_gudang_price": self.colt_semen_gudang_price,
@@ -79,6 +94,7 @@ class WizConfig(models.TransientModel):
             "product_solar": config.product_solar.id,
             "product_tol": config.product_tol.id,
             "product_parkir": config.product_parkir.id,
+            "product_premi": config.product_premi.id,
             "product_semen": config.product_semen.id,
             "product_bata": config.product_bata.id,
             "acc_sangu_driver": config.acc_sangu_driver.id,
@@ -86,7 +102,13 @@ class WizConfig(models.TransientModel):
             "acc_solar": config.acc_solar.id,
             "acc_tol": config.acc_tol.id,
             "acc_parkir": config.acc_parkir.id,
+            "acc_premi": config.acc_premi.id,
             "acc_invoice": config.acc_invoice.id,
+            "partner_sangu_kuli": config.partner_sangu_kuli.id,
+            "partner_solar": config.partner_solar.id,
+            "partner_tol": config.partner_tol.id,
+            "partner_parkir": config.partner_parkir.id,
+            "partner_premi": config.partner_premi.id,
             "tronton_bata_ringan_multiply": config.tronton_bata_ringan_multiply,
             "tronton_semen_gudang_price": config.tronton_semen_gudang_price,
             "colt_semen_gudang_price": config.colt_semen_gudang_price,

@@ -22,6 +22,7 @@
                             <field name="product_solar" required="1"/>
                             <field name="product_tol" required="1"/>
                             <field name="product_parkir" required="1"/>
+                            <field name="product_premi" required="1"/>
                             <field name="product_semen" required="1"/>
                             <field name="product_bata" required="1"/>
                         </group>
@@ -31,7 +32,15 @@
                             <field name="acc_solar" required="1"/>
                             <field name="acc_tol" required="1"/>
                             <field name="acc_parkir" required="1"/>
+                            <field name="acc_premi" required="1"/>
                             <field name="acc_invoice" required="1"/>
+                        </group>
+                        <group string="Default Partner">
+                            <field name="partner_sangu_kuli" required="1"/>
+                            <field name="partner_solar" required="1"/>
+                            <field name="partner_tol" required="1"/>
+                            <field name="partner_parkir" required="1"/>
+                            <field name="partner_premi" required="1"/>
                         </group>
                     </group>
                     <group>

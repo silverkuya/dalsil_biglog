@@ -15,6 +15,7 @@
                         <filter string="Solar" name="solar" domain="[('is_solar','=',1), ('parent_id', '=', False)]"/>
                         <filter string="Tol" name="tol" domain="[('is_tol','=',1), ('parent_id', '=', False)]"/>
                         <filter string="Parkir" name="parkir" domain="[('is_parkir','=',1), ('parent_id', '=', False)]"/>
+                        <filter string="Premi" name="premi" domain="[('is_premi','=',1), ('parent_id', '=', False)]"/>
                     </xpath>
                 </data>
             </field>
@@ -28,6 +29,9 @@
             <field name="inherit_id" ref="base.view_partner_form"/>
             <field name="arch" type="xml">
                 <data>
+                    <xpath expr="//field[@name='category_id']" position="after">
+                        <field name="truck_id"/>
+                    </xpath>
                     <xpath expr="//group[@name='purchase']" position="after">
                         <group string="Driver" name="driver">
                             <field name="is_driver"/>
@@ -46,6 +50,9 @@
                         </group>
                         <group string="Parkir" name="parkir">
                             <field name="is_parkir"/>
+                        </group>
+                        <group string="Premi" name="premi">
+                            <field name="is_premi"/>
                         </group>
                     </xpath>
                 </data>
@@ -169,6 +176,25 @@
               </p><p>
                 Odoo helps you easily track all activities related to
                 a parkir: discussions, documents, etc.
+              </p>
+            </field>
+        </record>
+
+        <record id="action_partner_premi_form" model="ir.actions.act_window">
+            <field name="name">Premi</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_type">form</field>
+            <field name="domain">[]</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="context">{'search_default_premi': 1,'default_customer': 0,'default_is_premi': 1}</field>
+            <field name="filter" eval="True"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to add a contact in your address book.
+              </p><p>
+                Odoo helps you easily track all activities related to
+                a premi: discussions, documents, etc.
               </p>
             </field>
         </record>

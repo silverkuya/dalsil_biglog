@@ -50,6 +50,20 @@
             </field>
         </record>
 
+        <record model="ir.ui.view" id="view_dalsil_ritase_pay_hutang_tree">
+            <field name="name">dalsil.ritase_pay_hutang.tree</field>
+            <field name="model">dalsil.ritase_pay_hutang</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom">
+                    <field name="ritase_id" invisible="1"/>
+                    <field name="driver_id" invisible="1"/>
+                    <field name="hutang_id" required="1"/>
+                    <field name="sisa_hutang"/>
+                    <field name="pembayaran"/>
+                </tree>
+            </field>
+        </record>
+
         <!--#########################################################################################################-->
         <!-- FORM -->
         <!--#########################################################################################################-->
@@ -84,14 +98,15 @@
                         </div>
                         <group>
                             <group>
-                                <field name="truck_id" create="0" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
-                                <field name="type_truck"/>
                                 <field name="driver_id" create="0" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="truck_id"/>
+                                <field name="type_truck"/>
                                 <field name="customer_id" create="0" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                                 <field name="kuli_id" create="0" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                                 <field name="solar_id" create="0" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                                 <field name="tol_id" create="0" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                                 <field name="parkir_id" create="0" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="premi_id" create="0" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                             </group>
                             <group>
                                 <field name="source_loc_id" attrs="{'readonly': [('state', '=', 'done')]}"/>
@@ -110,6 +125,7 @@
                                 <field name="jumlah_barang" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                                 <field name="harga_persak" attrs="{'invisible': ['|', ('type_truck', '!=', 'tronton'), ('tronton_dest_type', '!=', 'semen_pabrik')], 'readonly': [('state', '=', 'done')]}"/>
                                 <field name="sangu_driver" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="premi" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                                 <field name="sangu_kuli" attrs="{'invisible': [('type_truck', '!=', 'diesel')], 'readonly': [('state', '=', 'done')]}"/>
                                 <field name="solar" attrs="{'invisible': [('type_truck', '!=', 'diesel')], 'readonly': [('state', '=', 'done')]}"/>
                                 <field name="tol" attrs="{'invisible': [('type_truck', '!=', 'diesel')], 'readonly': [('state', '=', 'done')]}"/>
@@ -121,6 +137,9 @@
                             </group>
                         </group>
                         <field name="id" invisible="1"/>
+                        <group>
+                            <field name="pay_hutang_ids" context="{'default_driver_id': driver_id, 'default_ritase_id': id}" attrs="{'readonly': [('state','in', ['done', 'cancel'])]}"/>
+                        </group>
                         <notebook>
                             <page string="Invoice">
                                 <field name="invoice_ids" readonly="1" nolabel="1"/>

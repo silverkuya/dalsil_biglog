@@ -7,6 +7,7 @@
             <field name="product_solar"></field>
             <field name="product_tol"></field>
             <field name="product_parkir"></field>
+            <field name="product_premi"></field>
             <field name="product_semen"></field>
             <field name="product_bata"></field>
             <field name="acc_sangu_driver"></field>
@@ -14,7 +15,13 @@
             <field name="acc_solar"></field>
             <field name="acc_tol"></field>
             <field name="acc_parkir"></field>
+            <field name="acc_premi"></field>
             <field name="acc_invoice"></field>
+            <field name="partner_sangu_kuli"></field>
+            <field name="partner_solar"></field>
+            <field name="partner_tol"></field>
+            <field name="partner_parkir"></field>
+            <field name="partner_premi"></field>
             <field name="tronton_bata_ringan_multiply">0</field>
             <field name="tronton_semen_gudang_price">0</field>
             <field name="colt_semen_gudang_price">0</field>

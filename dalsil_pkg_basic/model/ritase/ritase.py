@@ -46,7 +46,21 @@ TYPE = (
     ("tronton", _("Tronton")),
     ("diesel", _("Colt Diesel"))
 )
+class RitasePaymentHutang(models.Model):
+    _name = "dalsil.ritase_pay_hutang"
+    _inherit = "ss.model"
 
+    ritase_id = fields.Many2one("dalsil.ritase", "parent_id")
+    driver_id = fields.Many2one("res.partner")
+    hutang_id = fields.Many2one("dalsil.hutang_driver", "Dokumen Hutang", domain='[("driver_id", "=", driver_id), ("state", "=", "open")]')
+    sisa_hutang = fields.Float("Sisa Hutang", digits=(20, 2), compute="_get_sisa_hutang")
+    pembayaran = fields.Float("Pembayaran", digits=(20, 2))
+
+    @api.depends("hutang_id")
+    def _get_sisa_hutang(self):
+        for record in self:
+            if record.hutang_id:
+                record.sisa_hutang = record.hutang_id.hutang_driver - record.hutang_id.payment_driver
 
 class Ritase(models.Model):
     """
@@ -57,23 +71,63 @@ class Ritase(models.Model):
     _state_start = STATE[0][0]
     _seq_code = {"name": "dalsil_ritase"}
 
+    @api.model
+    def _get_default_sangu_kuli(self):
+        setting = self.env["ir.model.data"].xmlid_to_object(
+                "dalsil_pkg_basic.dalsil_config")
+        if setting.partner_sangu_kuli:
+            return setting.partner_sangu_kuli
+        return False
+
+    @api.model
+    def _get_default_solar(self):
+        setting = self.env["ir.model.data"].xmlid_to_object(
+                "dalsil_pkg_basic.dalsil_config")
+        if setting.partner_solar:
+            return setting.partner_solar
+        return False
+
+    @api.model
+    def _get_default_tol(self):
+        setting = self.env["ir.model.data"].xmlid_to_object(
+                "dalsil_pkg_basic.dalsil_config")
+        if setting.partner_tol:
+            return setting.partner_tol
+        return False
+
+    @api.model
+    def _get_default_parkir(self):
+        setting = self.env["ir.model.data"].xmlid_to_object(
+                "dalsil_pkg_basic.dalsil_config")
+        if setting.partner_parkir:
+            return setting.partner_parkir
+        return False
+
+    @api.model
+    def _get_default_premi(self):
+        setting = self.env["ir.model.data"].xmlid_to_object(
+                "dalsil_pkg_basic.dalsil_config")
+        if setting.partner_premi:
+            return setting.partner_premi
+        return False
+
     name = fields.Char("Ritase No.")
     state = fields.Selection(STATE, "State", default="draft")
-    truck_id = fields.Many2one("dalsil.truck", "Truck", domain=[
-                               ("active", "=", True)], required=True)
-    type_truck = fields.Selection(TYPE, "Tipe Truck", default=TYPE[0][
-                                  0], compute="_get_truck_data", store=True)
+    truck_id = fields.Many2one("dalsil.truck", "Truck", compute="_get_truck_data", store=True)
+    type_truck = fields.Selection(TYPE, "Tipe Truck", compute="_get_truck_data", store=True)
 
     driver_id = fields.Many2one("res.partner", "Driver", domain=[(
         "active", "=", True), ("is_driver", "=", True)], required=True)
+    premi_id = fields.Many2one("res.partner", "Premi", domain=[(
+        "active", "=", True), ("is_premi", "=", True)], required=True, default=_get_default_sangu_kuli)
     kuli_id = fields.Many2one("res.partner", "Kuli", domain=[(
-        "active", "=", True), ("is_kuli", "=", True)], required=True)
+        "active", "=", True), ("is_kuli", "=", True)], required=True, default=_get_default_sangu_kuli)
     solar_id = fields.Many2one("res.partner", "Solar", domain=[(
-        "active", "=", True), ("is_solar", "=", True)], required=True)
+        "active", "=", True), ("is_solar", "=", True)], required=True, default=_get_default_solar)
     tol_id = fields.Many2one("res.partner", "Tol", domain=[(
-        "active", "=", True), ("is_tol", "=", True)], required=True)
+        "active", "=", True), ("is_tol", "=", True)], required=True, default=_get_default_tol)
     parkir_id = fields.Many2one("res.partner", "Parkir", domain=[(
-        "active", "=", True), ("is_parkir", "=", True)], required=True)
+        "active", "=", True), ("is_parkir", "=", True)], required=True, default=_get_default_parkir)
     # customer_rent_id = fields.Many2one("res.partner", "Penyewa Truck", domain=[("active", "=", True), ("customer", "=", True)], required=True)
     customer_id = fields.Many2one("res.partner", "Destination", domain=[(
         "active", "=", True), ("customer", "=", True)], required=True)
@@ -94,6 +148,7 @@ class Ritase(models.Model):
     jumlah_barang = fields.Float("Jumlah Sak Semen")
     harga_persak = fields.Float("Harga Per Sak Semen")
     sangu_driver = fields.Float("Sangu Supir", digits=(20, 2))
+    premi = fields.Float("Premi", digits=(20, 2))
     sangu_kuli = fields.Float("Sangu Kuli", digits=(20, 2))
     solar = fields.Float("Solar", digits=(20, 2))
     tol = fields.Float("Tol", digits=(20, 2))
@@ -116,6 +171,7 @@ class Ritase(models.Model):
     note = fields.Text("Note")
 
     invoice_ids = fields.One2many("account.invoice", "ritase_id", "Invoice")
+    pay_hutang_ids = fields.One2many("dalsil.ritase_pay_hutang", "ritase_id", "Hutang Supir")
     # line_ids = fields.One2many("dalsil.rent_truck.line", "parent_id", "Product")
     # sangu_invoice_id = fields.Many2one("account.invoice", "Invoice Sangu", readonly="1")
     # rent_invoice_id = fields.Many2one("account.invoice", "Invoice Rent", readonly="1")
@@ -132,9 +188,10 @@ class Ritase(models.Model):
                 record.dest_type = DICT_DEST_TYPE_COLT_DIESEL[
                     record.colt_dest_type]
 
-    @api.depends("truck_id")
+    @api.depends("driver_id")
     def _get_truck_data(self):
         for record in self:
+            record.truck_id = record.driver_id.truck_id
             record.type_truck = record.truck_id.type_truck
 
     @api.depends("source_loc_id")
@@ -174,18 +231,18 @@ class Ritase(models.Model):
                     return record.jumlah_barang * record.harga_persak
                 elif record.colt_dest_type == 'bata_pabrik':
                     multiply = int(
-                        (record.sangu_driver + record.sangu_kuli + record.solar + record.tol + record.parkir) / setting.colt_bata_pabrik_price) + 1
+                        (record.sangu_driver + record.sangu_kuli + record.solar + record.tol + record.parkir + record.premi) / setting.colt_bata_pabrik_price) + 1
                     return multiply * setting.colt_bata_pabrik_price
                 elif record.colt_dest_type == 'bata_gudang':
                     multiply = int(
-                        (record.sangu_driver + record.sangu_kuli + record.solar + record.tol + record.parkir)/ setting.colt_bata_gudang_price) + 1
+                        (record.sangu_driver + record.sangu_kuli + record.solar + record.tol + record.parkir + record.premi)/ setting.colt_bata_gudang_price) + 1
                     return multiply * setting.colt_bata_gudang_price
             return 0
 
-    @api.onchange("type_truck", "source_group_loc_id", "dest_group_loc_id", "tronton_dest_type", "colt_dest_type", "jumlah_barang", "harga_persak", "sangu_driver", "sangu_kuli", "solar", "tol", "parkir")
+    @api.onchange("type_truck", "source_group_loc_id", "dest_group_loc_id", "tronton_dest_type", "colt_dest_type", "jumlah_barang", "harga_persak", "sangu_driver", "premi", "sangu_kuli", "solar", "tol", "parkir")
     def onchange_price(self):
         self.price = self.get_price()
-        self.total = self.price - (self.sangu_driver + self.sangu_kuli + self.solar + self.tol + self.parkir)
+        self.total = self.price - (self.sangu_driver + self.sangu_kuli + self.solar + self.tol + self.parkir + self.premi)
 
     @api.onchange("type_truck")
     def onchange_biaya(self):
@@ -312,6 +369,25 @@ class Ritase(models.Model):
                 }
                 self.env['account.invoice'].sudo().create(vals)
 
+            if record.premi > 0:
+                vals = {
+                    'jenis_inv': "premi",
+                    'partner_id': record.premi_id.id,
+                    'origin': record.name,
+                    'type': 'in_invoice',
+                    'payment_term_id': record.sangu_payment_term_id.id,
+                    'ritase_id': record.id,
+                    'date_invoice': fields.Date.today(),
+                    'invoice_line_ids': [(0, 0, {
+                        'product_id': setting.product_premi.id,
+                        'name': 'Solar Ritase No ({})'.format(record.name),
+                        'quantity': 1.0,
+                        'price_unit': self.premi,
+                        'account_id': setting.acc_premi.id
+                    })]
+                }
+                self.env['account.invoice'].sudo().create(vals)
+
             vals = {
                 'jenis_inv': "invoice",
                 'partner_id': record.customer_id.id,
@@ -337,6 +413,13 @@ class Ritase(models.Model):
             for invoice_id in record.invoice_ids:
                 if invoice_id.state not in ['paid', 'cancel']:
                     raise ValidationError("Harap menyelesaikan invoice yang belum selesai terlebih dahulu")
+            for pay_hutang_id in record.pay_hutang_ids:
+                if pay_hutang_id.hutang_id.hutang_driver < pay_hutang_id.pembayaran:
+                    raise ValidationError("Hutang driver no {} pembayaran melebihi hutang silahkan dicek terlebih dahulu")
+                else:
+                    pay_hutang_id.hutang_id.hutang_driver -= pay_hutang_id.pembayaran
+                    if pay_hutang_id.hutang_id.hutang_driver == 0:
+                        pay_hutang_id.hutang_id.to_done()
             record.state = 'done'
 
     @api.multi
